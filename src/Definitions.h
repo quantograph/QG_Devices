@@ -13,6 +13,8 @@
 #include <SPI.h>
 #include <SD.h>
 #include <SerialFlash.h>
+#include <WireKinetis.h>
+#include <USBHost_t36.h>
 #include <TimeLib.h>
 
 // Audio inputs
