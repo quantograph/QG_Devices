@@ -12,6 +12,7 @@ void setup() {
     while (!Serial && (millis() <= 1000));
 
     _audio.init(&_settings);
+    _audio.setInput(Inputs::mic);
 }
 
 //=================================================================================================

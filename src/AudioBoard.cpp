@@ -126,7 +126,7 @@ void AudioBoard::checkvolume() {
 //=================================================================================================
 // Audio loop
 void AudioBoard::process() {
-    //noteFrequency();
+    noteFrequency();
     checkvolume();
     peakMeter();
     //test();
@@ -146,6 +146,7 @@ void AudioBoard::noteFrequency() {
         float left = _peakLeft.read();
         float right = _peakRight.read();
         peak = (left + right) / 2.0f;
+        Serial.printf("peak=%0.2f\n", peak);
     } else {
         return;
     }
