@@ -20,12 +20,11 @@ void setup() {
 void loop() {
     _audio.process();
 
-    if(_count % 10 == 0)
+    /*if(_count % 10 == 0)
       _audio.setInput(Inputs::mic);
 
     if(_count % 20 == 0)
-      _audio.setInput(Inputs::line);
+      _audio.setInput(Inputs::line);*/
       
-    _count++;
-    delay(100);
+    //delay(100);
 }

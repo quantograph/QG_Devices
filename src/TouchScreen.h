@@ -4,10 +4,8 @@
 // Screen library: https://github.com/PaulStoffregen/ILI9341_t3
 // Touch screen: https://github.com/PaulStoffregen/XPT2046_Touchscreen
 
-#include <ILI9341_t3.h>
-#include <font_Arial.h> // from ILI9341_t3
-#include <XPT2046_Touchscreen.h>
-#include <SPI.h>
+class XPT2046_Touchscreen;
+class ILI9341_t3;
 
 class TouchScreen {
 public:
@@ -38,10 +36,11 @@ public:
     void vertRect(uint16_t x, uint16_t y, uint16_t width, uint16_t height, uint16_t color);
     void horRect(uint16_t x, uint16_t y, uint16_t width, uint16_t height, uint16_t color);
 
-    XPT2046_Touchscreen _touch;
-    ILI9341_t3 _screen;
+    XPT2046_Touchscreen* _touch;
+    ILI9341_t3* _screen;
     boolean _touched = false;
-    TS_Point _touchPoint;
     int16_t _width = 0;
     int16_t _height = 0;
+    int16_t _x = 0;
+    int16_t _y = 0;
 };

@@ -1,5 +1,4 @@
 #include "Definitions.h"
-//#include "../Music/Effects.h"
 #include "AudioBoard.h"
 
 //=================================================================================================
@@ -24,8 +23,6 @@ void AudioBoard::init(AudioSettings* settings) {
     _cords.push_back(new AudioConnection(_input, 1, _peakRight, 0));
 
     setupMixers();
-
-    //notefreq.begin(.15);
 
     // Make effects
     /*_effect1 = new Effects(&_settings->_guitarInput._effect1, &_input, 0, &_mixer1, 0);
@@ -126,7 +123,6 @@ void AudioBoard::checkvolume() {
 //=================================================================================================
 // Audio loop
 void AudioBoard::process() {
-    noteFrequency();
     checkvolume();
     peakMeter();
     //test();
@@ -141,12 +137,20 @@ void AudioBoard::noteFrequency() {
     float highPeak = 0.1;
     float lowPeak = 0.05;
 
+    // Connect the input
+    if(!_noteFreqStarted) {
+        _cords.push_back(new AudioConnection(_input, 0, _notefreq, 0));
+        _cords.push_back(new AudioConnection(_input, 1, _notefreq, 0));
+        _notefreq.begin(.15);
+        _noteFreqStarted = true;
+    }
+
     // Get the peak value
     if(_peakLeft.available() && _peakRight.available()) {
         float left = _peakLeft.read();
         float right = _peakRight.read();
         peak = (left + right) / 2.0f;
-        Serial.printf("peak=%0.2f\n", peak);
+        //Serial.printf("peak=%0.2f\n", peak);
     } else {
         return;
     }
@@ -171,7 +175,7 @@ void AudioBoard::noteFrequency() {
     }
 
     // Get the new note frequency
-    if(notefreq.available()) {
+    if(_notefreq.available()) {
         if(!_noteDetected) {
             noteDetected(frequency);
             _noteDetected = true;
@@ -184,15 +188,15 @@ void AudioBoard::noteFrequency() {
 //=================================================================================================
 void AudioBoard::noteDetected(float frequency) {
     _noteDetectTime = micros();
-    frequency = notefreq.read();
-    _noteNumber = AudioSynthWavetable::freqToNote(frequency);
+    frequency = _notefreq.read();
+    //_noteNumber = AudioSynthWavetable::freqToNote(frequency);
 
     //drums4.playNote(48);
 
     //voice.playFrequency(frequency);
     //envelope1.noteOn();
 
-    //prob = notefreq.probability();
+    //prob = _notefreq.probability();
     //Serial.printf("%4d Note on. Detect: %d-%d=%d, freq=%3.0f, prob=%.2f\n", ++_sequence, _noteStartTime, _noteDetectTime, _noteDetectTime - _noteStartTime, frequency, prob);
     Serial.printf("%4d %3.0f\n", ++_sequence, frequency);
 
@@ -206,8 +210,8 @@ void AudioBoard::noteDetected(float frequency) {
 // Audio loop
 void AudioBoard::peakMeter() {
     if (_peakLeft.available() && _peakRight.available()) {
-        float left = _peakLeft.read();
-        float right = _peakRight.read();
+        //float left = _peakLeft.read();
+        //float right = _peakRight.read();
         //_gui->onPeakMeter(left, right);
 
         /*for (cnt = 0; cnt < width - leftPeak; cnt++) {

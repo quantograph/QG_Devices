@@ -1,8 +1,5 @@
 #pragma once
 
-#include <list>
-#include <Audio.h>
-
 //class Effects;
 class Storage;
 
@@ -24,7 +21,6 @@ public:
     void checkvolume();
     bool updateEffects();
 
-
     #define GUITAR_PLUG 3 // Teensy pin connected to guitar plug contact
     #define VOLUME_PIN 41 // Teensy pin connected to volume potentiometer
     //Gui* _gui{};
@@ -43,7 +39,8 @@ public:
     uint16_t _lastVolume = 0;
     AudioOutputI2S  _audioOutput;
     AudioControlSGTL5000 _audioControl;
-    AudioAnalyzeNoteFrequency notefreq;
+    AudioAnalyzeNoteFrequency _notefreq;
+    bool _noteFreqStarted{false};
     // Input and output mixers
     AudioMixer4 _mixer1;
     AudioMixer4 _mixer2;
