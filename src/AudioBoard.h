@@ -23,7 +23,6 @@ public:
 
     #define GUITAR_PLUG 3 // Teensy pin connected to guitar plug contact
     #define VOLUME_PIN 41 // Teensy pin connected to volume potentiometer
-    //Gui* _gui{};
     AudioSettings* _settings{};
     AudioInputI2S _input; // audio shield: mic or line-in
     std::list<AudioConnection*> _cords;
@@ -53,4 +52,6 @@ public:
     Effects* _effect2{nullptr};*/
     AudioAnalyzePeak _peakLeft;
     AudioAnalyzePeak _peakRight;
+    float _leftPeak{0.0}; // Cirremt left peak value
+    float _rightPeak{0.0}; // Cirremt right peak value
 };

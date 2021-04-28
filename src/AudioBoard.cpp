@@ -72,7 +72,6 @@ void AudioBoard::setupMixers() {
     _cords.push_back(new AudioConnection(_outMixer1, 0, _audioOutput, 0));
     _cords.push_back(new AudioConnection(_outMixer2, 0, _audioOutput, 1));
 
-
     _cords.push_back(new AudioConnection(_input, 0, _mixer1, 0));
     _cords.push_back(new AudioConnection(_input, 0, _mixer4, 0));
 }
@@ -145,17 +144,8 @@ void AudioBoard::noteFrequency() {
         _noteFreqStarted = true;
     }
 
-    // Get the peak value
-    if(_peakLeft.available() && _peakRight.available()) {
-        float left = _peakLeft.read();
-        float right = _peakRight.read();
-        peak = (left + right) / 2.0f;
-        //Serial.printf("peak=%0.2f\n", peak);
-    } else {
-        return;
-    }
-
     // See if the note is on or off
+    peak = (_leftPeak + _rightPeak) / 2.0f;
     if(peak > highPeak && !_noteOn) {
         _noteStartTime = micros();
         _noteOn = true;
@@ -209,26 +199,11 @@ void AudioBoard::noteDetected(float frequency) {
 //=================================================================================================
 // Audio loop
 void AudioBoard::peakMeter() {
-    if (_peakLeft.available() && _peakRight.available()) {
-        //float left = _peakLeft.read();
-        //float right = _peakRight.read();
-        //_gui->onPeakMeter(left, right);
+    if (_peakLeft.available())
+        _leftPeak = _peakLeft.read();
 
-        /*for (cnt = 0; cnt < width - leftPeak; cnt++) {
-            Serial.print(" ");
-        }
-        while (cnt++ < width) {
-            Serial.print("<");
-        }
-        Serial.print("||");
-        for (cnt = 0; cnt < rightPeak; cnt++) {
-            Serial.print(">");
-        }
-        while (cnt++ < width) {
-            Serial.print(" ");
-        }
-        Serial.println();*/
-    }
+    if (_peakRight.available())
+        _rightPeak = _peakRight.read();
 }
 
 //=================================================================================================

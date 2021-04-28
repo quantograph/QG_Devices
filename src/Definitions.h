@@ -27,8 +27,13 @@ enum Inputs {
 // Audio setting
 struct AudioSettings {
     Inputs _input{Inputs::mic}; // Mic or line in
-    float _micGain{0.7}; // Microphone gain (0.0 - 1.0)
+    float _micGain{0.8}; // Microphone gain (0.0 - 1.0)
     float _lineInLevel{0.5}; // (0.0 - 1.0)
+};
+
+struct Point {
+    int _x{0};
+    int _y{0};
 };
 
 #define MIC_GAIN_MAX 63 // 0 - 63
